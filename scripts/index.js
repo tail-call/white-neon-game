@@ -2,6 +2,7 @@ import Game from './Game.js';
 import Screen from './Screen.js';
 import Tile from './Tile.js';
 import Tileset from './Tileset.js';
+import VisualLog from './VisualLog.js';
 import World from './World.js';
 
 import { loadImage } from './util.js';
@@ -118,33 +119,16 @@ class GameDelegate {
     }
 }
 
-class VisualLog {
-    constructor(id) {
-        this.element = document.getElementById(id);
-    }
-
-    cook(text) {
-        return text.replace(/\n/g, '<br>');
-    }
-
-    write(text) {
-        this.element.innerHTML += this.cook(text);
-    }
-
-    hide() {
-        this.element.style.display = 'none';
-    }
-
-    toggle() {
-        if (this.element.style.display === 'none') {
-            this.element.style.display = 'block';
-        } else {
-            this.element.style.display = 'none';
-        }
-    }
+function filterImage(image, filter) {
+    const canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const context = canvas.getContext('2d');
+    context.filter = filter;
 }
 
-window.log = new VisualLog('log');
+VisualLog.instance = new VisualLog('log');
+const log = VisualLog.instance;
 log.write('done');
 
 log.write('\nLoading tiles...');
